@@ -30,7 +30,7 @@ services:
         mode: host
     volumes:
       - homenas_portainer:/data
-    #env_file:
+    #env_file: 实测无效，待删除
       # 容器内的全部环境变量，用于Portainer Stack Deploy构建services时对compose文件的解析
       # 具体Stack的docker-compose.yml文件中的环境变量，都可以直接使用这个文件中定义的用于Portainer容器的环境变量
       # 例如：所有docker-compose.yml中的TZ都可以直接定义为 TZ: ${TZ}
