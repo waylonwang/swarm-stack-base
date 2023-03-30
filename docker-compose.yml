@@ -66,11 +66,14 @@ networks:
   network_cluster:
     external: true
 
+x-common-keys-volume: &common-keys-volume
+  type: nfs
+  o: addr=${NFS_SERVER},rw,nfsvers=4
+
 volumes:
   # 挂载NFS卷，用于Swarm集群node迁移时保持数据
   nfs_portainer:
     driver: local
     driver_opts:
-      type: nfs
-      o: addr=${NFS_SERVER},rw,nfsvers=4
+      <<: *common-keys-volume
       device: :{NFS_DEVICE}/base/portainer
