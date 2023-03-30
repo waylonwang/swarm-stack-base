@@ -30,7 +30,7 @@ services:
         protocol: tcp
         mode: host
     volumes:
-      - homenas_portainer:/data
+      - nfs_portainer:/data
     env_file: 
       # 容器内的全部环境变量，用于Portainer Stack Deploy构建services时对compose文件的解析
       # 具体Stack的docker-compose.yml文件中的环境变量，都可以直接使用这个文件中定义的用于Portainer容器的环境变量
@@ -68,9 +68,9 @@ networks:
 
 volumes:
   # 挂载NFS卷，用于Swarm集群node迁移时保持数据
-  homenas_portainer:
+  nfs_portainer:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=192.168.11.99,rw,nfsvers=4
-      device: :/volume1/docker/swarm/base/portainer
+      o: addr=${NFS_SERVER},rw,nfsvers=4
+      device: :{NFS_DEVICE}/base/portainer
