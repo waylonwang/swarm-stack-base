@@ -30,7 +30,7 @@ services:
         protocol: tcp
         mode: host
     volumes:
-      - homenas_portainer:/data
+      - nfs_portainer:/data
     env_file: 
       # 容器内的全部环境变量，用于Portainer Stack Deploy构建services时对compose文件的解析
       # 具体Stack的docker-compose.yml文件中的环境变量，都可以直接使用这个文件中定义的用于Portainer容器的环境变量
@@ -42,7 +42,7 @@ services:
         - "traefik.enable=true"
         # 对外访问的路由地址，路由规则请参考官网
         # https://docs.traefik.io/routing/routers/
-        - "traefik.http.routers.portainer.rule=Host(`swarm.cloudvalley.name`)"
+        - "traefik.http.routers.portainer.rule=Host(`swarm.${DOMAIN_SWARM}`)"
         # 对外暴露的入口点
         - "traefik.http.routers.portainer.entrypoints=websecure"
         # 容器内的入口点，treafik无法获知你的服务的访问入口点
@@ -68,12 +68,12 @@ networks:
 
 x-common-keys-volume: &common-keys-volume
   type: nfs
-  o: addr=192.168.11.99,rw,nfsvers=4
+  o: addr=${NFS_SERVER},rw,nfsvers=4
 
 volumes:
   # 挂载NFS卷，用于Swarm集群node迁移时保持数据
-  homenas_portainer:
+  nfs_portainer:
     driver: local
     driver_opts:
       <<: *common-keys-volume
-      device: :/volume1/docker/swarm/base/portainer
+      device: :${NFS_DEVICE}/base/portainer
