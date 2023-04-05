@@ -5,8 +5,8 @@ services:
   # Portainer nodes代理
   agent:
     image: portainer/agent:2.16.2
-    networks:
-      - network_cluster
+    networks: [network_cluster]
+    restart: always
     environment:
       AGENT_CLUSTER_ADDR: tasks.agent
       TZ: Asia/Shanghai
@@ -23,8 +23,8 @@ services:
   portainer:
     image: portainer/portainer-ce:2.16.2-alpine
     command: -H tcp://tasks.agent:9001 --tlsskipverify
-    networks:
-      - network_cluster
+    networks: [network_cluster]
+    restart: always
     ports:
       - target: 9000
         published: 9000
@@ -32,11 +32,10 @@ services:
         mode: host
     volumes:
       - nfs_portainer:/data
-    env_file:
-      # 容器内的全部环境变量，用于Portainer Stack Deploy构建services时对compose文件的解析
-      # 具体Stack的docker-compose.yml文件中的环境变量，都可以直接使用这个文件中定义的用于Portainer容器的环境变量
-      # 例如：所有docker-compose.yml中的TZ都可以直接定义为 TZ: ${TZ}
-      - ../../stack.env
+    # 容器内的全部环境变量，用于Portainer Stack Deploy构建services时对compose文件的解析
+    # 具体Stack的docker-compose.yml文件中的环境变量，都可以直接使用这个文件中定义的用于Portainer容器的环境变量
+    # 例如: 所有docker-compose.yml中的TZ都可以直接定义为 TZ: ${TZ}
+    env_file: [../../stack.env]
     deploy:
       labels:
         # 对外暴露容器服务
