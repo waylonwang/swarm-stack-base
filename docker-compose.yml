@@ -1,5 +1,5 @@
-version: '3.4'
 # Update Time: 2023-04-05 15:22
+version: "3.4"
 
 services:
   # Portainer nodes代理
@@ -16,7 +16,7 @@ services:
     deploy:
       mode: global
       placement:
-        constraints: 
+        constraints:
           - node.platform.os == linux
 
   # Portainer Swarm管理
@@ -32,10 +32,10 @@ services:
         mode: host
     volumes:
       - nfs_portainer:/data
-    env_file: 
+    env_file:
       # 容器内的全部环境变量，用于Portainer Stack Deploy构建services时对compose文件的解析
       # 具体Stack的docker-compose.yml文件中的环境变量，都可以直接使用这个文件中定义的用于Portainer容器的环境变量
-      # 例如：所有docker-compose.yml中的TZ都可以直接定义为 TZ: ${TZ} 
+      # 例如：所有docker-compose.yml中的TZ都可以直接定义为 TZ: ${TZ}
       - ../../stack.env
     deploy:
       labels:
@@ -50,7 +50,7 @@ services:
         # 所以你必须以此告诉Traefik
         # Traefik同时会在此对横向拓展的容器建立负载均衡
         # 更多见https://docs.traefik.io/routing/services/
-        - "traefik.http.services.portainer.loadbalancer.server.port=9000"        
+        - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       mode: replicated
       replicas: 1
       placement:
@@ -58,7 +58,7 @@ services:
         # 由于Synology修改了Docker的代码，导致Swarm模式下，环境变量无法正确的赋值
         # 因此Portainer不能部署到Synology NAS服务器，否则上述env_file引入的环境变量全部无效
         # 同时要注意，Swarm模式下，需要环境变量运行的Service都不应部署到Synology NAS服务器
-        constraints: 
+        constraints:
           - node.role == manager
           - node.labels.type == vm
 
