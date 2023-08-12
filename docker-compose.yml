@@ -57,7 +57,7 @@ services:
         - homepage.description=Swarm服务管理
         - homepage.ping=http://portainer:9000
         - homepage.widget.type=portainer
-        - homepage.widget.url=https://swarm.${DOMAIN_SWARM}:4/
+        - homepage.widget.url=https://swarm.${DOMAIN_SWARM}:4
         - homepage.widget.env=1
         - homepage.widget.key=ptr_GPi0AMwH2e20Htmkq3Vq+e5bmUWkk0HicKr/JCrpJzY=
       mode: replicated
