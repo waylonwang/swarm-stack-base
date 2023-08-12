@@ -59,7 +59,7 @@ services:
         - homepage.widget.type=portainer
         - homepage.widget.url=https://swarm.${DOMAIN_SWARM}:4
         - homepage.widget.env=1
-        - homepage.widget.key=ptr_GPi0AMwH2e20Htmkq3Vq+e5bmUWkk0HicKr/JCrpJzY=
+        - homepage.widget.key=${HOMEPAGE_PORTAINER_TOKEN}
       mode: replicated
       replicas: 1
       placement:
