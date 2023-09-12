@@ -71,6 +71,7 @@ services:
         constraints:
           - node.role == manager
           - node.labels.type == vm
+          - node.labels.metrics != true
 
 networks:
   # Swarm集群overload网络
