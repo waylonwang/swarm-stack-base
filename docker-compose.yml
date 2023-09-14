@@ -70,8 +70,7 @@ services:
         # 同时要注意，Swarm模式下，需要环境变量运行的Service都不应部署到Synology NAS服务器
         constraints:
           - node.role == manager
-          - node.labels.type == router
-          - node.labels.metrics != true
+          - node.labels.base == true
 
 networks:
   # Swarm集群overload网络
