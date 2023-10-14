@@ -42,9 +42,11 @@ services:
         - "traefik.enable=true"
         # 对外访问的路由地址，路由规则请参考官网
         # https://docs.traefik.io/routing/routers/
-        - "traefik.http.routers.portainer.rule=Host(`swarm.${DOMAIN_SWARM}`)"
         # 对外暴露的入口点
+        - "traefik.http.routers.portainer.rule=Host(`swarm.${DOMAIN_SWARM}`)"
         - "traefik.http.routers.portainer.entrypoints=websecure"
+        - "traefik.http.routers.portainer.service=portainer"
+        - "traefik.http.routers.portainer.middlewares=cors-headers@file,noauth-chain@file"
         # 容器内的入口点，treafik无法获知你的服务的访问入口点
         # 所以你必须以此告诉Traefik
         # Traefik同时会在此对横向拓展的容器建立负载均衡
