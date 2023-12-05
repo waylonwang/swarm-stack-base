@@ -57,7 +57,7 @@ services:
         - homepage.icon=portainer.png
         - homepage.href=https://swarm.${DOMAIN_SWARM}:4/
         - homepage.description=Swarm服务管理
-        - homepage.ping=http://portainer:9000
+        - homepage.siteMonitor=http://portainer:9000
         - homepage.showStats=true
         - homepage.widget.type=portainer
         - homepage.widget.url=https://swarm.${DOMAIN_SWARM}:4
