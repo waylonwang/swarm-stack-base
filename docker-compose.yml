@@ -4,7 +4,8 @@ version: "3.4"
 services:
   # Portainer nodes代理
   agent:
-    image: portainer/agent:2.16.2
+    image: portainer/agent:2.19.4
+    # image: portainer/agent:2.16.2
     networks: [network_cluster]
     restart: always
     environment:
@@ -21,7 +22,8 @@ services:
 
   # Portainer Swarm管理
   portainer:
-    image: portainer/portainer-ce:2.16.2-alpine
+    image: portainer/portainer-ce:2.19.4-alpine
+    # image: portainer/portainer-ce:2.16.2-alpine
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     networks: [network_cluster]
     restart: always
