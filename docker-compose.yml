@@ -4,8 +4,8 @@ version: "3.4"
 services:
   # Portainer nodes代理
   agent:
-    image: portainer/agent:2.19.4
-    # image: portainer/agent:2.16.2
+    # image: portainer/agent:2.19.4
+    image: portainer/agent:2.16.2
     networks: [network_cluster]
     restart: always
     environment:
