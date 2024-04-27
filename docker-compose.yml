@@ -54,7 +54,7 @@ services:
         # Traefik同时会在此对横向拓展的容器建立负载均衡
         # 更多见https://docs.traefik.io/routing/services/
         - "traefik.http.services.portainer.loadbalancer.server.port=9000"
-        - homepage.group=Base & Public
+        - homepage.group=Base
         - homepage.name=Portainer
         - homepage.icon=portainer.png
         - homepage.href=https://swarm.${DOMAIN_SWARM}:4/
