@@ -45,7 +45,7 @@ services:
         # 对外访问的路由地址，路由规则请参考官网
         # https://docs.traefik.io/routing/routers/
         # 对外暴露的入口点
-        - "traefik.http.routers.portainer.rule=Host(`swarm.${DOMAIN_SWARM}`)"
+        - "traefik.http.routers.portainer.rule=Host(`swarm.${DOMAIN_SWARM}`,`swarm.${DOMAIN_EMERGENCY}`)"
         - "traefik.http.routers.portainer.entrypoints=websecure"
         - "traefik.http.routers.portainer.service=portainer"
         - "traefik.http.routers.portainer.middlewares=cors-headers@file,noauth-chain@file"
