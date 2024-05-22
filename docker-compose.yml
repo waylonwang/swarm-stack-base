@@ -137,7 +137,7 @@ volumes:
     driver: local
     driver_opts:
       <<: *common-keys-volume
-      device: :${NFS_DEVICE}/development/swarm-config
+      device: :${NFS_DEVICE}/base/swarm-config
   nfs_swarm-config_attach_swarm:
     driver: local
     driver_opts:
