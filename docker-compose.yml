@@ -81,7 +81,7 @@ services:
     # image: lscr.io/linuxserver/code-server:latest
     # 原镜像下载非常慢，会导致更新服务后容器很久才能启动，因此使用自定义镜像
     networks: [network_cluster]
-    restart: on-failure
+    restart: always
     ports:
       - 28443:8443
     environment:
