@@ -76,6 +76,47 @@ services:
           - node.role == manager
           - node.labels.base == true
 
+  swarm-config:
+    image: registry.${DOMAIN_SWARM}:4/linuxserver/code-server:version-4.21.1
+    # image: lscr.io/linuxserver/code-server:latest
+    # 原镜像下载非常慢，会导致更新服务后容器很久才能启动，因此使用自定义镜像
+    networks: [network_cluster]
+    restart: on-failure
+    ports:
+      - 38443:8443
+    environment:
+      PUID: ${CODESERVER_PUID}
+      PGID: ${CODESERVER_PGID}
+      PASSWORD: ${CODESERVER_PASSWORD}
+      SUDO_PASSWORD: ${CODESERVER_SUDO_PASSWORD}
+      HTTP_PROXY: ${OPENCLASH_HTTP_PROXY}
+      HTTPS_PROXY: ${OPENCLASH_HTTP_PROXY}        
+      TZ: ${TZ} 
+    volumes:
+      - nfs_swarm-config_data:/config
+      - nfs_swarm-config_attach_swarm:/swarm
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.swarm-config.rule=Host(`config.${DOMAIN_SWARM}`,`config.${DOMAIN_EMERGENCY}`)"
+        - "traefik.http.routers.swarm-config.entrypoints=websecure"
+        - "traefik.http.routers.swarm-config.service=swarm-config"
+        - "traefik.http.routers.swarm-config.middlewares=noauth-chain@file"
+        - "traefik.http.services.swarm-config.loadbalancer.server.port=8443"
+        - homepage.group=Base
+        - homepage.name=Swarm Configuration
+        - homepage.icon=docker.png
+        - homepage.href=https://config.${DOMAIN_SWARM}:4/
+        - homepage.description=Swarm配置管理
+        - homepage.siteMonitor=http://swarm-config:8443
+        - homepage.weight=1
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+          - node.labels.base == true
+
 networks:
   # Swarm集群overload网络
   network_cluster:
@@ -92,3 +133,13 @@ volumes:
     driver_opts:
       <<: *common-keys-volume
       device: :${NFS_DEVICE}/base/portainer
+  nfs_swarm-config_data:
+    driver: local
+    driver_opts:
+      <<: *common-keys-volume
+      device: :${NFS_DEVICE}/development/swarm-config
+  nfs_swarm-config_attach_swarm:
+    driver: local
+    driver_opts:
+      <<: *common-keys-volume
+      device: :${NFS_DEVICE}
