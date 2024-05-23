@@ -105,7 +105,7 @@ services:
         - "traefik.http.services.swarm-config.loadbalancer.server.port=8443"
         - homepage.group=Base
         - homepage.name=Swarm Configuration
-        - homepage.icon=docker.png
+        - homepage.icon=docker-moby.png
         - homepage.href=https://config.${DOMAIN_SWARM}:4/
         - homepage.description=Swarm配置管理
         - homepage.siteMonitor=http://swarm-config:8443
