@@ -1,4 +1,4 @@
-# Update Time: 2024-05-01 18:01
+# Update Time: 2024-05-26 11:50
 version: "3.4"
 
 services:
@@ -57,12 +57,12 @@ services:
         - homepage.group=Base
         - homepage.name=Portainer
         - homepage.icon=portainer.png
-        - homepage.href=https://swarm.${DOMAIN_SWARM}:4/
+        - homepage.href=https://swarm.${DOMAIN_SWARM}:${EXTERNAL_PORT}/
         - homepage.description=Swarm服务管理
         - homepage.siteMonitor=http://portainer:9000
         - homepage.showStats=true
         - homepage.widget.type=portainer
-        - homepage.widget.url=https://swarm.${DOMAIN_SWARM}:4
+        - homepage.widget.url=https://swarm.${DOMAIN_SWARM}:${EXTERNAL_PORT}
         - homepage.widget.env=1
         - homepage.widget.key=${HOMEPAGE_PORTAINER_TOKEN}
       mode: replicated
@@ -77,7 +77,7 @@ services:
           - node.labels.base == true
 
   swarm-config:
-    image: registry.${DOMAIN_SWARM}:4/linuxserver/code-server:version-4.21.1
+    image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/linuxserver/code-server:version-4.21.1
     # image: lscr.io/linuxserver/code-server:latest
     # 原镜像下载非常慢，会导致更新服务后容器很久才能启动，因此使用自定义镜像
     networks: [network_cluster]
@@ -106,7 +106,7 @@ services:
         - homepage.group=Base
         - homepage.name=Swarm Configuration
         - homepage.icon=docker-moby.png
-        - homepage.href=https://config.${DOMAIN_SWARM}:4/
+        - homepage.href=https://config.${DOMAIN_SWARM}:${EXTERNAL_PORT}/
         - homepage.description=Swarm配置管理
         - homepage.siteMonitor=http://swarm-config:8443
         - homepage.weight=3
