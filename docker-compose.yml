@@ -48,7 +48,7 @@ services:
         - "traefik.http.routers.portainer.rule=Host(`swarm.${DOMAIN_SWARM}`,`swarm.${DOMAIN_EMERGENCY}`)"
         - "traefik.http.routers.portainer.entrypoints=websecure"
         - "traefik.http.routers.portainer.service=portainer"
-        - "traefik.http.routers.portainer.middlewares=cors-headers@file,noauth-chain@file"
+        - "traefik.http.routers.portainer.middlewares=cors-headers@file,normal-chain@file"
         # 容器内的入口点，treafik无法获知你的服务的访问入口点
         # 所以你必须以此告诉Traefik
         # Traefik同时会在此对横向拓展的容器建立负载均衡
@@ -101,7 +101,7 @@ services:
         - "traefik.http.routers.swarm-config.rule=Host(`config.${DOMAIN_SWARM}`,`config.${DOMAIN_EMERGENCY}`)"
         - "traefik.http.routers.swarm-config.entrypoints=websecure"
         - "traefik.http.routers.swarm-config.service=swarm-config"
-        - "traefik.http.routers.swarm-config.middlewares=noauth-chain@file"
+        - "traefik.http.routers.swarm-config.middlewares=normal-chain@file"
         - "traefik.http.services.swarm-config.loadbalancer.server.port=8443"
         - homepage.group=Base
         - homepage.name=Swarm Configuration
