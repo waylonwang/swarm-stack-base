@@ -75,6 +75,11 @@ services:
         constraints:
           - node.role == manager
           - node.labels.base == true
+    logging:
+      driver: fluentd
+      options:
+        tag: docker.base.portainer
+        fluentd-async-connect: "true"  
 
   swarm-config:
     image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/linuxserver/code-server:version-4.21.1
@@ -143,3 +148,8 @@ volumes:
     driver_opts:
       <<: *common-keys-volume
       device: :${NFS_DEVICE}
+  nfs_swarm-log_data:
+    driver: local
+    driver_opts:
+      <<: *common-keys-volume
+      device: :${NFS_DEVICE}/base/swarm-log
