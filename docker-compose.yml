@@ -88,7 +88,7 @@ services:
     networks: [network_cluster]
     restart: always
     ports:
-      - 28443:8443
+      - 9090:8443
     environment:
       PUID: ${CODESERVER_PUID}
       PGID: ${CODESERVER_PGID}
