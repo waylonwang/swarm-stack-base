@@ -30,7 +30,7 @@ x-defines:
       parallelism: 1
       delay: 10s
       failure_action: rollback
-      monitor: 5m
+      monitor: 3m
       order: start-first      
   driver-common: &driver-common-ref
     type: nfs
