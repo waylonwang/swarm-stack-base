@@ -11,8 +11,6 @@ x-defines:
   env-proxy: &env-proxy-ref
     HTTP_PROXY: ${OPENCLASH_HTTP_PROXY}
     HTTPS_PROXY: ${OPENCLASH_HTTP_PROXY}
-  deploy-common: &deploy-common-ref
-    mode: global
   placement-default: &placement-default-ref
     placement:
       constraints:
@@ -53,7 +51,7 @@ services:
         fluentd-async-connect: "true"
         tag: docker.base.agent
     deploy:
-      <<: *restart-default-ref
+      mode: global
       placement:
         constraints:
           - node.platform.os == linux
@@ -155,7 +153,8 @@ services:
         - homepage.description=Swarm配置管理
         - homepage.siteMonitor=http://swarm-config:8443
         - homepage.weight=3
-      <<: [*deploy-common-ref, *restart-default-ref, *update-default-ref]
+      <<: [*restart-default-ref, *update-default-ref]
+      mode: global
       placement:
         constraints:
           - node.role == manager
