@@ -157,6 +157,12 @@ services:
         - homepage.weight=3
       <<: [*restart-default-ref, *update-default-ref]
       replicas: 2
+      placement:
+        constraints:
+          - node.role == manager
+          - node.labels.type == vm
+        preferences:
+          - constraint: node.labels.base == true
 
 networks:
   # Swarm集群overload网络
