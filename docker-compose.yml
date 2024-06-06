@@ -5,7 +5,6 @@ version: "3.4"
 x-defines:
   service-common: &service-common-ref
     networks: [network_cluster]
-    # restart: always
   env-common: &env-common-ref
     TZ: ${TZ:-Asia/Shanghai}    
   env-proxy: &env-proxy-ref
@@ -27,7 +26,6 @@ x-defines:
       delay: 10s
       failure_action: rollback
       monitor: 3m
-      # order: start-first      
   driver-common: &driver-common-ref
     type: nfs
     o: addr=${NFS_SERVER},rw,nfsvers=4
