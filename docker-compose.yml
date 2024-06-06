@@ -22,7 +22,7 @@ x-defines:
         - node.labels.base == true
   restart-default: &restart-default-ref
       restart_policy:
-        condition: always
+        condition: any
         delay: 3s      
   driver-common: &driver-common-ref
     type: nfs
