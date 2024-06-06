@@ -156,13 +156,12 @@ services:
         - homepage.siteMonitor=http://swarm-config:8443
         - homepage.weight=3
       <<: [*restart-default-ref, *update-default-ref]
-      replicas: 2
+      mode: global
       placement:
         constraints:
           - node.role == manager
           - node.labels.type == vm
           - node.labels.base.config == true
-          - node.hostname
           
 networks:
   # Swarm集群overload网络
