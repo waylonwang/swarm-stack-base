@@ -21,9 +21,9 @@ x-defines:
         - node.labels.type == vm
         - node.labels.base == true
   restart-default: &restart-default-ref
-      restart_policy:
-        condition: any
-        delay: 3s  
+    restart_policy:
+      condition: any
+      delay: 3s  
   update-default: &update-default-ref
     update_config:
       parallelism: 1
