@@ -14,7 +14,7 @@ x-defines:
     HTTPS_PROXY: ${OPENCLASH_HTTP_PROXY}
   deploy-common: &deploy-common-ref
     mode: replicated
-    replicas: 1
+    # replicas: 1
   placement-default: &placement-default-ref
     placement:
       constraints:
