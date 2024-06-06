@@ -19,7 +19,7 @@ x-defines:
     placement:
       constraints:
         - node.role == manager
-        # - node.labels.type == vm
+        - node.labels.type == vm
         - node.labels.base == true
   restart-default: &restart-default-ref
       restart_policy:
@@ -155,7 +155,8 @@ services:
         - homepage.description=Swarm配置管理
         - homepage.siteMonitor=http://swarm-config:8443
         - homepage.weight=3
-      <<: [*placement-default-ref, *restart-default-ref, *update-default-ref]
+      <<: [*restart-default-ref, *update-default-ref]
+      replicas: 2
 
 networks:
   # Swarm集群overload网络
