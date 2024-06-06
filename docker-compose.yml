@@ -19,7 +19,7 @@ x-defines:
     placement:
       constraints:
         - node.role == manager
-        - node.labels.base == true
+        # - node.labels.base == true
   restart-default: &restart-default-ref
       restart_policy:
         condition: any
@@ -109,7 +109,11 @@ services:
       # 因此Portainer不能部署到Synology NAS服务器，否则上述env_file引入的环境变量全部无效
       # 同时要注意，Swarm模式下，需要环境变量运行的Service都不应部署到Synology NAS服务器
       <<: [*deploy-common-ref, *placement-default-ref, *restart-default-ref]
-
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+        monitor: until-repair
   # ------------------------------------------------------------
   # Swarm Config编辑环境
   # ------------------------------------------------------------
@@ -148,7 +152,12 @@ services:
         - homepage.siteMonitor=http://swarm-config:8443
         - homepage.weight=3
       <<: [*deploy-common-ref, *placement-default-ref, *restart-default-ref]
-
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+        monitor: until-repair
+        
 networks:
   # Swarm集群overload网络
   network_cluster:
