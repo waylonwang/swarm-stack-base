@@ -5,7 +5,13 @@ version: "3.4"
 x-defines:
   service-common: &service-common-ref
     networks: [network_cluster]
-    restart: always
+    # restart: always
+  env-common: &env-common-ref
+    NO_PROXY: ${NO_PROXY:-localhost,127.0.0.1,::1}
+    TZ: ${TZ:-Asia/Shanghai}    
+  env-proxy: &env-proxy-ref
+    HTTP_PROXY: ${OPENCLASH_HTTP_PROXY}
+    HTTPS_PROXY: ${OPENCLASH_HTTP_PROXY}
   deploy-common: &deploy-common-ref
     mode: replicated
     replicas: 1
@@ -14,6 +20,10 @@ x-defines:
       constraints:
         - node.role == manager
         - node.labels.base == true
+  restart-default: &restart-default-ref
+      restart_policy:
+        condition: always
+        delay: 3s      
   driver-common: &driver-common-ref
     type: nfs
     o: addr=${NFS_SERVER},rw,nfsvers=4
@@ -23,14 +33,11 @@ services:
   # Portainer nodes代理
   # ------------------------------------------------------------
   agent:
-    image: portainer/agent:2.19.4
-    # image: portainer/agent:2.16.2
     <<: *service-common-ref
-    networks: [network_cluster]
-    restart: always
+    image: portainer/agent:2.19.4
     environment:
+      <<: *env-common-ref
       AGENT_CLUSTER_ADDR: tasks.agent
-      TZ: Asia/Shanghai
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
@@ -44,25 +51,28 @@ services:
       placement:
         constraints:
           - node.platform.os == linux
+      <<: *restart-default-ref
 
   # ------------------------------------------------------------
   # Portainer Swarm管理
   # ------------------------------------------------------------
   portainer:
+    <<: *service-common-ref
     image: portainer/portainer-ce:2.19.4-alpine # portainer/portainer-ce:2.16.2-alpine
     command: -H tcp://tasks.agent:9001 --tlsskipverify
-    <<: *service-common-ref
     ports:
       - target: 9000
         published: 9000
         protocol: tcp
         mode: host
+    env_file: [../../stack.env]
+    environment:
+      <<: *env-common-ref
     volumes:
       - nfs_portainer:/data
     # 容器内的全部环境变量，用于Portainer Stack Deploy构建services时对compose文件的解析
     # 具体Stack的docker-compose.yml文件中的环境变量，都可以直接使用这个文件中定义的用于Portainer容器的环境变量
     # 例如: 所有docker-compose.yml中的TZ都可以直接定义为 TZ: ${TZ}
-    env_file: [../../stack.env]
     logging:
       driver: fluentd
       options:
@@ -98,24 +108,22 @@ services:
       # 由于Synology修改了Docker的代码，导致Swarm模式下，环境变量无法正确的赋值
       # 因此Portainer不能部署到Synology NAS服务器，否则上述env_file引入的环境变量全部无效
       # 同时要注意，Swarm模式下，需要环境变量运行的Service都不应部署到Synology NAS服务器
-      <<: [*deploy-common-ref, *placement-default-ref]
+      <<: [*deploy-common-ref, *placement-default-ref, *restart-default-ref]
 
   # ------------------------------------------------------------
   # Swarm Config编辑环境
   # ------------------------------------------------------------
   swarm-config:
-    image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/linuxserver/code-server:version-4.21.1 # lscr.io/linuxserver/code-server:latest
     <<: *service-common-ref
+    image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/linuxserver/code-server:version-4.21.1 # lscr.io/linuxserver/code-server:latest
     ports:
       - 9090:8443
     environment:
+      <<: [*env-common-ref, *env-proxy-ref]
       PUID: ${CODESERVER_PUID}
       PGID: ${CODESERVER_PGID}
       PASSWORD: ${CODESERVER_PASSWORD}
       SUDO_PASSWORD: ${CODESERVER_SUDO_PASSWORD}
-      HTTP_PROXY: ${OPENCLASH_HTTP_PROXY}
-      HTTPS_PROXY: ${OPENCLASH_HTTP_PROXY}
-      TZ: ${TZ}
     volumes:
       - nfs_swarm-config_data:/config
       - nfs_swarm-config_attach_swarm:/swarm
@@ -139,7 +147,7 @@ services:
         - homepage.description=Swarm配置管理
         - homepage.siteMonitor=http://swarm-config:8443
         - homepage.weight=3
-      <<: [*deploy-common-ref, *placement-default-ref]
+      <<: [*deploy-common-ref, *placement-default-ref, *restart-default-ref]
 
 networks:
   # Swarm集群overload网络
