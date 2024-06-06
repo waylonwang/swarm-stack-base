@@ -7,7 +7,6 @@ x-defines:
     networks: [network_cluster]
     # restart: always
   env-common: &env-common-ref
-    NO_PROXY: ${NO_PROXY:-localhost,127.0.0.1,::1}
     TZ: ${TZ:-Asia/Shanghai}    
   env-proxy: &env-proxy-ref
     HTTP_PROXY: ${OPENCLASH_HTTP_PROXY}
@@ -132,6 +131,7 @@ services:
       PGID: ${CODESERVER_PGID}
       PASSWORD: ${CODESERVER_PASSWORD}
       SUDO_PASSWORD: ${CODESERVER_SUDO_PASSWORD}
+      NO_PROXY: ${NO_PROXY}
     volumes:
       - nfs_swarm-config_data:/config
       - nfs_swarm-config_attach_swarm:/swarm
