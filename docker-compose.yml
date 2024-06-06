@@ -30,7 +30,7 @@ x-defines:
       delay: 10s
       failure_action: rollback
       monitor: 3m
-      order: start-first      
+      # order: start-first      
   driver-common: &driver-common-ref
     type: nfs
     o: addr=${NFS_SERVER},rw,nfsvers=4
