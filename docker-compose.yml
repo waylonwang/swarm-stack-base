@@ -162,7 +162,8 @@ services:
           - node.role == manager
           - node.labels.type == vm
           - node.labels.base.config == true
-
+          - node.hostname
+          
 networks:
   # Swarm集群overload网络
   network_cluster:
