@@ -19,6 +19,7 @@ x-defines:
     placement:
       constraints:
         - node.role == manager
+        - node.labels.type == vm
         # - node.labels.base == true
   restart-default: &restart-default-ref
       restart_policy:
