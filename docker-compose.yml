@@ -14,7 +14,7 @@ x-defines:
     HTTPS_PROXY: ${OPENCLASH_HTTP_PROXY}
   deploy-common: &deploy-common-ref
     mode: replicated
-    # replicas: 1
+    replicas: 1
   placement-default: &placement-default-ref
     placement:
       constraints:
@@ -115,7 +115,7 @@ services:
       # 由于Synology修改了Docker的代码，导致Swarm模式下，环境变量无法正确的赋值
       # 因此Portainer不能部署到Synology NAS服务器，否则上述env_file引入的环境变量全部无效
       # 同时要注意，Swarm模式下，需要环境变量运行的Service都不应部署到Synology NAS服务器
-      <<: [*deploy-common-ref, *placement-default-ref, *restart-default-ref, *update-default-ref]
+      <<: [*placement-default-ref, *restart-default-ref, *update-default-ref]
 
   # ------------------------------------------------------------
   # Swarm Config编辑环境
@@ -154,7 +154,7 @@ services:
         - homepage.description=Swarm配置管理
         - homepage.siteMonitor=http://swarm-config:8443
         - homepage.weight=3
-      <<: [*deploy-common-ref, *placement-default-ref, *restart-default-ref, *update-default-ref]
+      <<: [*placement-default-ref, *restart-default-ref, *update-default-ref]
 
 networks:
   # Swarm集群overload网络
