@@ -37,7 +37,7 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-async-connect: "true" 
+        fluentd-async-connect: "true"
         tag: docker.base.agent
     deploy:
       mode: global
@@ -66,24 +66,24 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-async-connect: "true"  
+        fluentd-async-connect: "true"
         tag: docker.base.portainer
     deploy:
       labels:
         # 对外暴露容器服务
-        - "traefik.enable=true"
+        - traefik.enable=true
         # 对外访问的路由地址，路由规则请参考官网
         # https://docs.traefik.io/routing/routers/
         # 对外暴露的入口点
-        - "traefik.http.routers.portainer.rule=Host(`swarm.${DOMAIN_SWARM}`,`swarm.${DOMAIN_EMERGENCY}`)"
-        - "traefik.http.routers.portainer.entrypoints=websecure"
-        - "traefik.http.routers.portainer.service=portainer"
-        - "traefik.http.routers.portainer.middlewares=cors-headers@file,normal-chain@file"
+        - traefik.http.routers.portainer.rule=Host(`swarm.${DOMAIN_SWARM}`,`swarm.${DOMAIN_EMERGENCY}`)
+        - traefik.http.routers.portainer.entrypoints=websecure
+        - traefik.http.routers.portainer.service=portainer
+        - traefik.http.routers.portainer.middlewares=cors-headers@file,normal-chain@file
         # 容器内的入口点，treafik无法获知你的服务的访问入口点
         # 所以你必须以此告诉Traefik
         # Traefik同时会在此对横向拓展的容器建立负载均衡
         # 更多见https://docs.traefik.io/routing/services/
-        - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+        - traefik.http.services.portainer.loadbalancer.server.port=9000
         - homepage.group=Base
         - homepage.name=Portainer
         - homepage.icon=portainer.png
@@ -114,8 +114,8 @@ services:
       PASSWORD: ${CODESERVER_PASSWORD}
       SUDO_PASSWORD: ${CODESERVER_SUDO_PASSWORD}
       HTTP_PROXY: ${OPENCLASH_HTTP_PROXY}
-      HTTPS_PROXY: ${OPENCLASH_HTTP_PROXY}        
-      TZ: ${TZ} 
+      HTTPS_PROXY: ${OPENCLASH_HTTP_PROXY}
+      TZ: ${TZ}
     volumes:
       - nfs_swarm-config_data:/config
       - nfs_swarm-config_attach_swarm:/swarm
@@ -123,15 +123,15 @@ services:
       driver: fluentd
       options:
         tag: docker.base.swarm-config
-        fluentd-async-connect: "true"  
+        fluentd-async-connect: "true"
     deploy:
       labels:
-        - "traefik.enable=true"
-        - "traefik.http.routers.swarm-config.rule=Host(`config.${DOMAIN_SWARM}`,`config.${DOMAIN_EMERGENCY}`)"
-        - "traefik.http.routers.swarm-config.entrypoints=websecure"
-        - "traefik.http.routers.swarm-config.service=swarm-config"
-        - "traefik.http.routers.swarm-config.middlewares=normal-chain@file"
-        - "traefik.http.services.swarm-config.loadbalancer.server.port=8443"
+        - traefik.enable=true
+        - traefik.http.routers.swarm-config.rule=Host(`config.${DOMAIN_SWARM}`,`config.${DOMAIN_EMERGENCY}`)
+        - traefik.http.routers.swarm-config.entrypoints=websecure
+        - traefik.http.routers.swarm-config.service=swarm-config
+        - traefik.http.routers.swarm-config.middlewares=normal-chain@file
+        - traefik.http.services.swarm-config.loadbalancer.server.port=8443
         - homepage.group=Base
         - homepage.name=Swarm Configuration
         - homepage.icon=docker-moby.png
