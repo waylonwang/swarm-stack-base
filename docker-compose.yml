@@ -19,6 +19,11 @@ services:
       placement:
         constraints:
           - node.platform.os == linux
+    logging:
+      driver: fluentd
+      options:
+        tag: docker.base.agent
+        fluentd-async-connect: "true" 
 
   # Portainer Swarm管理
   portainer:
@@ -121,6 +126,11 @@ services:
         constraints:
           - node.role == manager
           - node.labels.base == true
+    logging:
+      driver: fluentd
+      options:
+        tag: docker.base.swarm-config
+        fluentd-async-connect: "true"  
 
 networks:
   # Swarm集群overload网络
