@@ -36,7 +36,7 @@ services:
   # ------------------------------------------------------------
   agent:
     <<: *service-common-ref
-    image: portainer/agent:2.19.4
+    image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/portainer/agent:2.19.4
     environment:
       <<: *env-common-ref
       AGENT_CLUSTER_ADDR: tasks.agent
@@ -59,7 +59,7 @@ services:
   # ------------------------------------------------------------
   portainer:
     <<: *service-common-ref
-    image: portainer/portainer-ce:2.19.4-alpine # portainer/portainer-ce:2.16.2-alpine
+    image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/portainer/portainer-ce:2.19.4-alpine # portainer/portainer-ce:2.16.2-alpine
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     ports:
       - target: 9000
