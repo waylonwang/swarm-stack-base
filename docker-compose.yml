@@ -10,6 +10,8 @@ x-defines:
   env-proxy: &env-proxy-ref
     HTTP_PROXY: ${OPENCLASH_HTTP_PROXY}
     HTTPS_PROXY: ${OPENCLASH_HTTP_PROXY}
+    http_proxy: ${OPENCLASH_HTTP_PROXY}
+    https_proxy: ${OPENCLASH_HTTP_PROXY}
   placement-default: &placement-default-ref
     placement:
       constraints:
