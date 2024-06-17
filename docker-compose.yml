@@ -38,6 +38,7 @@ services:
   # ------------------------------------------------------------
   agent:
     <<: *service-common-ref
+    # image-ref: portainer/agent:2.19.4
     image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/portainer/agent:2.19.4
     environment:
       <<: *env-common-ref
@@ -61,6 +62,7 @@ services:
   # ------------------------------------------------------------
   portainer:
     <<: *service-common-ref
+    # image-ref: portainer/portainer-ce:2.19.4-alpine
     image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/portainer/portainer-ce:2.19.4-alpine # portainer/portainer-ce:2.16.2-alpine
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     ports:
@@ -120,6 +122,7 @@ services:
   # ------------------------------------------------------------
   swarm-config:
     <<: *service-common-ref
+    # image-ref: linuxserver/code-server:version-4.21.1 # lscr.io/linuxserver/code-server:latest
     image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/linuxserver/code-server:version-4.21.1 # lscr.io/linuxserver/code-server:latest
     sysctls:
       - fs.inotify.max_user_instances=524288
