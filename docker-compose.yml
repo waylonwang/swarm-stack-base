@@ -123,7 +123,7 @@ services:
   swarm-config:
     <<: *service-common-ref
     # image-ref: lscr.io/linuxserver/code-server:version-4.21.1 # lscr.io/linuxserver/code-server:latest
-    image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/linuxserver/code-server:version-4.21.1 # lscr.io/linuxserver/code-server:latest
+    image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/linuxserver/code-server:version-4.21.1
     sysctls:
       - fs.inotify.max_user_instances=524288
     ports:
