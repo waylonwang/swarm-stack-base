@@ -165,7 +165,29 @@ services:
           - node.role == manager
           - node.labels.type == vm
           - node.labels.base.config == true
-          
+
+  # ------------------------------------------------------------
+  # LazyDocker管理
+  # ------------------------------------------------------------
+  lazydocker:
+    <<: *service-common-ref
+    # lazyteam/lazydocker:latest
+    image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/lazyteam/lazydocker:latest
+    environment:
+      <<: *env-common-ref
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - nfs_lazydocker:/.config/jesseduffield/lazydocker
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async-connect: "true"
+        tag: docker.base.lazydocker
+    deploy:
+      <<: [*placement-default-ref, *restart-default-ref, *update-default-ref]
+      mode: replicated
+      replicas: 1
+
 networks:
   # Swarm集群overload网络
   network_cluster:
@@ -193,4 +215,9 @@ volumes:
     driver_opts:
       <<: *driver-common-ref
       device: :${NFS_DEVICE}/base/swarm-log
+  nfs_lazydocker:
+    driver: local
+    driver_opts:
+      <<: *driver-common-ref
+      device: :${NFS_DEVICE}/base/lazydocker
 ...
