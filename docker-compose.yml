@@ -137,6 +137,7 @@ services:
       NO_PROXY: ${NO_PROXY}
     volumes:
       - nfs_swarm-config_data:/config
+      - nfs_swarm-config_nvm:/root/.nvm
       - nfs_swarm-config_attach_swarm:/swarm
     logging:
       driver: fluentd
@@ -183,6 +184,11 @@ volumes:
     driver_opts:
       <<: *driver-common-ref
       device: :${NFS_DEVICE}/base/swarm-config
+  nfs_swarm-config_nvm:
+    driver: local
+    driver_opts:
+      <<: *driver-common-ref
+      device: :${NFS_DEVICE}/base/swarm-config-nvm      
   nfs_swarm-config_attach_swarm:
     driver: local
     driver_opts:
