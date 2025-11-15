@@ -43,6 +43,7 @@ services:
     environment:
       <<: *env-common-ref
       AGENT_CLUSTER_ADDR: tasks.agent
+      AGENT_SECRET: ${PORTAINER_AGENT_SECRET}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
@@ -73,6 +74,7 @@ services:
     env_file: [../../stack.env]
     environment:
       <<: *env-common-ref
+      AGENT_SECRET: ${PORTAINER_AGENT_SECRET}
     volumes:
       - nfs_portainer:/data
     # 容器内的全部环境变量，用于Portainer Stack Deploy构建services时对compose文件的解析
