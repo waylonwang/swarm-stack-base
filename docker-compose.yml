@@ -47,11 +47,11 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
-    logging:
-      driver: fluentd
-      options:
-        fluentd-async-connect: "true"
-        tag: docker.base.agent
+    # logging:
+    #   driver: fluentd
+    #   options:
+    #     fluentd-async-connect: "true"
+    #     tag: docker.base.agent
     deploy:
       mode: global
       placement:
@@ -80,11 +80,11 @@ services:
     # 容器内的全部环境变量，用于Portainer Stack Deploy构建services时对compose文件的解析
     # 具体Stack的docker-compose.yml文件中的环境变量，都可以直接使用这个文件中定义的用于Portainer容器的环境变量
     # 例如: 所有docker-compose.yml中的TZ都可以直接定义为 TZ: ${TZ}
-    logging:
-      driver: fluentd
-      options:
-        fluentd-async-connect: "true"
-        tag: docker.base.portainer
+    # logging:
+    #   driver: fluentd
+    #   options:
+    #     fluentd-async-connect: "true"
+    #     tag: docker.base.portainer
     deploy:
       labels:
         # 对外暴露容器服务
@@ -141,11 +141,11 @@ services:
       - nfs_swarm-config_data:/config
       - nfs_swarm-config_nvm:/root/.nvm
       - nfs_swarm-config_attach_swarm:/swarm
-    logging:
-      driver: fluentd
-      options:
-        tag: docker.base.swarm-config
-        fluentd-async-connect: "true"
+    # logging:
+    #   driver: fluentd
+    #   options:
+    #     tag: docker.base.swarm-config
+    #     fluentd-async-connect: "true"
     deploy:
       labels:
         - traefik.enable=true
