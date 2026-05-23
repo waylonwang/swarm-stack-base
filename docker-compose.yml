@@ -4,7 +4,7 @@ version: "3.4"
 
 x-defines:
   service-common: &service-common-ref
-    networks: [network_cluster]
+    networks: [network_swarm]
   env-common: &env-common-ref
     TZ: ${TZ:-Asia/Shanghai}    
   env-proxy: &env-proxy-ref
@@ -171,7 +171,7 @@ services:
 
 networks:
   # Swarm集群overload网络
-  network_cluster:
+  network_swarm:
     external: true
 
 volumes:
