@@ -175,7 +175,7 @@ services:
         - traefik.http.routers.pcm.service=pcm
         - traefik.http.routers.pcm.middlewares=auth,normal-chain@file,cors-headers@file
         - traefik.http.services.pcm.loadbalancer.server.port=80
-        - homepage.group=Public
+        - homepage.group=Base
         - homepage.name=Personal Cloud Manager
         - homepage.icon=cloudvalley.png
         - homepage.href=https://pcm.t${DOMAIN_SWARM}:${EXTERNAL_PORT}
