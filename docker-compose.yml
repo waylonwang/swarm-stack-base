@@ -178,7 +178,7 @@ services:
         - homepage.group=Base
         - homepage.name=Personal Cloud Manager
         - homepage.icon=cloudvalley.png
-        - homepage.href=https://pcm.t${DOMAIN_SWARM}:${EXTERNAL_PORT}
+        - homepage.href=https://pcm.${DOMAIN_SWARM}:${EXTERNAL_PORT}
         - homepage.description=HomeLab个人云管家
         - homepage.ping=http://pcm
         - com.centurylinklabs.watchtower.enable=true
