@@ -181,6 +181,27 @@ services:
         - homepage.href=https://pcm.t${DOMAIN_SWARM}:${EXTERNAL_PORT}
         - homepage.description=HomeLab个人云管家
         - homepage.ping=http://pcm
+        - com.centurylinklabs.watchtower.enable=true
+        - com.centurylinklabs.watchtower.scope=pcm_update
+      <<: [*deploy-common-ref, *placement-default-ref, *restart-default-ref, *update-default-ref]
+
+  # ------------------------------------------------------------
+  # Watchtower PCM镜像更新守望
+  # ------------------------------------------------------------
+  watchtower-pcm:
+    <<: *service-common-ref
+    # image-ref: containrrr/watchtower:1.7.1
+    image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/containrrr/watchtower:1.7.1 
+    environment:
+      <<: *env-common-ref    
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_LOG_LEVEL: "Pretty"
+      WATCHTOWER_POLL_INTERVAL: 30
+      WATCHTOWER_LABEL_ENABLE: "true"
+      WATCHTOWER_SCOPE: "pcm_update"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
       <<: [*deploy-common-ref, *placement-default-ref, *restart-default-ref, *update-default-ref]
 
   # ------------------------------------------------------------
