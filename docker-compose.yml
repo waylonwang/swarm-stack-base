@@ -167,6 +167,9 @@ services:
       - 9595:80     
     # volumes:
     #   - nfs_pcm_srv:/srv
+    labels:    
+        - com.centurylinklabs.watchtower.enable=true
+        - com.centurylinklabs.watchtower.scope=pcm_update
     deploy:
       labels:
         - traefik.enable=true
@@ -181,8 +184,6 @@ services:
         - homepage.href=https://pcm.${DOMAIN_SWARM}:${EXTERNAL_PORT}
         - homepage.description=HomeLab个人云管家
         - homepage.ping=http://pcm
-        - com.centurylinklabs.watchtower.enable=true
-        - com.centurylinklabs.watchtower.scope=pcm_update
       <<: [*deploy-common-ref, *placement-default-ref, *restart-default-ref, *update-default-ref]
 
   # ------------------------------------------------------------
