@@ -304,7 +304,7 @@ volumes:
     driver_opts:
       <<: *driver-common-ref
       device: :${NFS_DEVICE}/base/pcm/srv   
-nfs_watchtower-pcm_conf:   
+  nfs_watchtower-pcm_conf:   
     driver: local
     driver_opts:
       <<: *driver-common-ref
