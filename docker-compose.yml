@@ -191,8 +191,8 @@ services:
   # ------------------------------------------------------------
   watchtower-pcm:
     <<: *service-common-ref
-    # image-ref: containrrr/watchtower:1.7.1
-    image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/containrrr/watchtower:1.7.1 
+    # image-ref: nickfedor/watchtower:1.17.2
+    image: registry.${DOMAIN_SWARM}:${EXTERNAL_PORT}/nickfedor/watchtower:1.17.2
     environment:
       <<: *env-common-ref    
       WATCHTOWER_CLEANUP: "true"
