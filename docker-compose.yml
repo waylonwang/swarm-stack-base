@@ -199,9 +199,11 @@ services:
       WATCHTOWER_POLL_INTERVAL: 30
       WATCHTOWER_LABEL_ENABLE: "true"
       WATCHTOWER_DEBUG: "true"
+      DOCKER_CONFIG: "/config"
       WATCHTOWER_SCOPE: "pcm_update"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - nfs_watchtower-pcm_conf:/config
     deploy:
       <<: [*deploy-common-ref, *placement-default-ref, *restart-default-ref, *update-default-ref]
 
@@ -301,5 +303,10 @@ volumes:
     driver: local
     driver_opts:
       <<: *driver-common-ref
-      device: :${NFS_DEVICE}/base/pcm/srv          
+      device: :${NFS_DEVICE}/base/pcm/srv   
+nfs_watchtower-pcm_conf:   
+    driver: local
+    driver_opts:
+      <<: *driver-common-ref
+      device: :${NFS_DEVICE}/base/watchtower-pcm/conf               
 ...
